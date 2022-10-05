@@ -1,6 +1,29 @@
 const express = require('express');
 const app = express();
 
+path = require('path');
+const cors = require('cors');
+
+let allowedOrigins = [
+  'http://localhost:8080',
+  'http://localhost:1234',
+  'http://localhost:4200',
+  'https://tktamir.github.io',
+];
+const passport = require('passport');
+require('./passport');
+
+const Models = require('./models.js');
+
+(bodyParser = require('body-parser')), (uuid = require('uuid'));
+
+const mongoose = require('mongoose');
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+const { check, validationResult } = require('express-validator');
+
 //Get requests
 
 //GET Main page
