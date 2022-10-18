@@ -115,8 +115,6 @@ app.delete(
   }
 );
 //DELETE allow users to delete their account
-
-//DELETE- delete- Delete a user
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
