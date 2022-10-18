@@ -139,3 +139,14 @@ app.get('/documentation', function (req, res) {
 
 //Access Stylesheets.css
 app.use(express.static(__dirname + '/public/'));
+
+//Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Error');
+});
+
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+  console.log('Listening on Port ' + port);
+});
