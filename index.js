@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 
 path = require('path');
+
+// Controls allowed origins
 const cors = require('cors');
 
 let allowedOrigins = [
@@ -15,7 +17,11 @@ require('./passport');
 
 const Models = require('./models.js');
 
-(bodyParser = require('body-parser')), (uuid = require('uuid'));
+// Parses body of requests to JSON
+bodyParser = require('body-parser');
+
+// Genereates uniqe id
+uuid = require('uuid');
 
 const mongoose = require('mongoose');
 
@@ -109,6 +115,7 @@ app.delete(
   }
 );
 //DELETE allow users to delete their account
+
 //DELETE- delete- Delete a user
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
@@ -124,3 +131,11 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
       res.status(500).send('Error: ' + err);
     });
 });
+
+//Access documentation.html through express.static
+app.get('/documentation', function (req, res) {
+  res.sendFile(path.join(__dirname + '/public/documentation.html'));
+});
+
+//Access Stylesheets.css
+app.use(express.static(__dirname + '/public/'));
