@@ -36,11 +36,22 @@ const { check, validationResult } = require('express-validator');
 let notes = [
   {
     id: 1,
-    content: 'Jessica Drake',
+    content: 'Meaningful Note',
   },
   {
     id: 2,
-    content: 'Ben Cohen',
+    content: 'Casual Note',
+  },
+];
+
+let users = [
+  {
+    id: 1,
+    user: 'Jessica Drake',
+  },
+  {
+    id: 2,
+    user: 'Ben Cohen',
   },
 ];
 
@@ -68,17 +79,17 @@ app.get('/users/notes/noteID', (req, res) => {
 
 //GET a user’s info by username.
 app.get('/users/:Username', (req, res) => {
-  res.json(userInfoByUserName);
+  res.json(user);
 });
 
 //GET a user’s info by user ID.
-app.get('/users/:uaerID', (req, res) => {
-  res.json(userInfoByUserID);
+app.get('/users/:userID', (req, res) => {
+  res.json(user);
 });
 
 //GET a list of all users.
 app.get('/users', (req, res) => {
-  res.json(allUsers);
+  res.json(users);
 });
 
 //POST a new user account.
