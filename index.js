@@ -13,7 +13,7 @@ let allowedOrigins = [
   'https://tktamir.github.io',
 ];
 const passport = require('passport');
-require('./passport');
+// require('./passport');
 
 const Models = require('./models.js');
 
@@ -29,6 +29,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const { check, validationResult } = require('express-validator');
+
+let notes = [
+  {
+    id: 1,
+    content: 'Jessica Drake',
+  },
+  {
+    id: 2,
+    content: 'Ben Cohen',
+  },
+];
 
 //Get requests
 
