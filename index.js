@@ -17,6 +17,9 @@ const passport = require('passport');
 
 const Models = require('./models.js');
 
+const Notes = Models.Notes;
+const Users = Models.User;
+
 // Parses body of requests to JSON
 bodyParser = require('body-parser');
 
