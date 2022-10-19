@@ -68,13 +68,18 @@ app.get('/documentation', (req, res) => {
 });
 
 //GET all notes of a user by user ID (including the note contents and date).
-app.get('/users/notes', (req, res) => {
+app.get('/users/:Username/notes', (req, res) => {
   res.json(notes);
 });
 
 //GET a note by note ID.
-app.get('/users/notes/noteID', (req, res) => {
+app.get('/users/:Username/notes/noteID', (req, res) => {
   res.json(userNoteById);
+});
+
+//GET a list of all users.
+app.get('/users', (req, res) => {
+  res.json(users);
 });
 
 //GET a user’s info by username.
@@ -87,19 +92,53 @@ app.get('/users/:userID', (req, res) => {
   res.json(user);
 });
 
-//GET a list of all users.
-app.get('/users', (req, res) => {
-  res.json(users);
-});
-
-//POST a new user account.
+//POST Register a new user account.
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username });
   Users.create({ Username: req.body.Username, Password: hashedPassword, Email: req.body.Email });
 });
 
+//UPDATE-put- Update user info
+app.put(
+  '/users/:Username',
+  [
+    check('Username', 'Username is required').isLength({ min: 4 }),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    ).isAlphanumeric(),
+    check('Password', 'Password is required').isLength({ min: 6 }),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    let hashedPassword = Users.hashPassword(req.body.Password);
+
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthdate: req.body.Birthdate,
+        },
+      },
+      { new: true }, //This line make sure that the updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Error: ' + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
 //POST a new note.
-app.post('/users/notes', (req, res) => {
+app.post('/users/:Username/notes', (req, res) => {
   Users.findOneAndUpdate(
     { Username: req.body.Username },
     { $push: { notes: req.params.noteID } },
@@ -114,8 +153,6 @@ app.post('/users/notes', (req, res) => {
     }
   };
 });
-
-//Maybe I need to add a put method to update the notes, need to decide on method.
 
 //DELETE allow users to delete notes
 app.delete(
