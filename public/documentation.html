@@ -1,15 +1,105 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title></title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Movies API</title>
   </head>
   <body>
-    <script src="" async defer></script>
+    <main>
+      <div>
+        <h1>Notes API</h1>
+        Hi! welcome to my Notes API created by Tamir Kahalany.<br />
+        This is a REST API connected to a database that stores data about different Notes.
+      </div>
+      <div>
+        <h2>Notes API actions</h2>
+        <table class="table">
+          <thead class="thead">
+            <tr>
+              <th>Business Logic</th>
+              <th>URL</th>
+              <th>HTTP Method</th>
+              <th>Request body data format</th>
+              <th>Response body data format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Login</td>
+              <td>/login</td>
+              <td>POST</td>
+              <td>{username: , password: }</td>
+              <td>
+                After loging in you will receive a token that will grant you access to the API
+                methods. JSON object containing data-id, Username, Password, Email, __v, Token.
+              </td>
+            </tr>
+            <tr>
+              <td>Return a list of all Notes</td>
+              <td>/Notes</td>
+              <td>GET</td>
+              <td>none</td>
+              <td>JSON object containing data</td>
+            </tr>
+            <tr>
+              <td>Return data about a single Note</td>
+              <td>/Notes/:noteID</td>
+              <td>GET</td>
+              <td>none</td>
+              <td>JSON object containing data about a</td>
+            </tr>
+
+            <tr>
+              <td>Return data about all users</td>
+              <td>/users</td>
+              <td>GET</td>
+              <td>none</td>
+              <td>
+                JSON object containing data about all users user-Username, password, email, birthday
+              </td>
+            </tr>
+            <tr>
+              <td>Return data about a user</td>
+              <td>/users</td>
+              <td>GET</td>
+              <td>none</td>
+              <td>JSON object containing data about a user-Username, password, email, birthday</td>
+            </tr>
+            <tr>
+              <td>Register new user</td>
+              <td>/users</td>
+              <td>POST</td>
+              <td>{ id: , username: "", password:"", email:"", birthday }</td>
+              <td>
+                JSON object containig data about a user: <br />
+                { id: , username: "", password:"", email:"", birthday}
+              </td>
+            </tr>
+
+            <tr>
+              <td>Update user data</td>
+              <td>/users/:Username</td>
+              <td>PUT</td>
+              <td>id: , username: "", password:"", email:"", birthday</td>
+              <td>
+                JSON object containig data about a user: <br />
+                { id: , username: "", password:"", email:"", birthday}
+              </td>
+            </tr>
+
+            <tr>
+              <td>Remove user</td>
+              <td>/users/:Username</td>
+              <td>DELETE</td>
+              <td>none</td>
+              <td>Text confirming that a user was removed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
   </body>
 </html>
