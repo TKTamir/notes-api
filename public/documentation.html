@@ -39,14 +39,14 @@
             </tr>
             <tr>
               <td>Return a list of all Notes</td>
-              <td>/Notes</td>
+              <td>users/:Username/notes</td>
               <td>GET</td>
               <td>none</td>
               <td>JSON object containing data</td>
             </tr>
             <tr>
               <td>Return data about a single Note</td>
-              <td>/Notes/:noteID</td>
+              <td>/users/:Username/notes/noteID</td>
               <td>GET</td>
               <td>none</td>
               <td>JSON object containing data about a</td>
@@ -62,8 +62,15 @@
               </td>
             </tr>
             <tr>
-              <td>Return data about a user</td>
-              <td>/users</td>
+              <td>Return data about a user by Username</td>
+              <td>/users/:Username</td>
+              <td>GET</td>
+              <td>none</td>
+              <td>JSON object containing data about a user-Username, password, email, birthday</td>
+            </tr>
+            <tr>
+              <td>Return data about a user by User ID</td>
+              <td>/users/:userID</td>
               <td>GET</td>
               <td>none</td>
               <td>JSON object containing data about a user-Username, password, email, birthday</td>
@@ -82,6 +89,17 @@
             <tr>
               <td>Update user data</td>
               <td>/users/:Username</td>
+              <td>PUT</td>
+              <td>id: , username: "", password:"", email:"", birthday</td>
+              <td>
+                JSON object containig data about a user: <br />
+                { id: , username: "", password:"", email:"", birthday}
+              </td>
+            </tr>
+
+            <tr>
+              <td>Create a new note/edit note</td>
+              <td>/users/:Username/notes</td>
               <td>PUT</td>
               <td>id: , username: "", password:"", email:"", birthday</td>
               <td>
