@@ -6,7 +6,6 @@ let NotesSchema = mongoose.Schema({
   Title: { type: String, required: true },
   Description: { type: String, required: true },
   LastEdited: Date,
-  editThisField: String,
 });
 //Define UserSchema
 let userSchema = mongoose.Schema({
