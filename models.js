@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 //Define Movies Schema
-let NotesSchema = mongoose.Schema({
+let NoteSchema = mongoose.Schema({
+  User: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   Title: { type: String, required: true },
   Description: { type: String, required: true },
   LastEdited: Date,
@@ -23,8 +24,8 @@ userSchema.methods.validatePassword = function (password) {
   return bcrypt.compareSync(password, this.Password);
 };
 
-let Notes = mongoose.model('Notes', NotesSchema);
+let Note = mongoose.model('Note', NoteSchema);
 let User = mongoose.model('User', userSchema);
 
-module.exports.Notes = Notes;
+module.exports.Note = Note;
 module.exports.User = User;
