@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-//Define Movies Schema
+//Define Notes Schema
 let NoteSchema = mongoose.Schema({
   User: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   Title: { type: String, required: true },
