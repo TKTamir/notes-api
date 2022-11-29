@@ -13,7 +13,7 @@ let userSchema = mongoose.Schema({
   Username: { type: String, required: true },
   Password: { type: String, required: true },
   Email: { type: String, required: true },
-  Notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Notes' }],
+  Notes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }],
 });
 //Function to hash password
 userSchema.statics.hashPassword = (password) => {
