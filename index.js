@@ -53,7 +53,7 @@ app.get('/documentation', function (req, res) {
 });
 
 //GET all notes of a user by user ID (including the note contents and date).
-app.get('/users/:Username/notes', (req, res) => {
+app.get('/users/:Username/notes', passport.authenticate('jwt', { session: false }), (req, res) => {
   Notes.find()
     .then((notes) => {
       res.status(200).json(notes);
@@ -65,19 +65,23 @@ app.get('/users/:Username/notes', (req, res) => {
 });
 
 //GET a note by note ID.
-app.get('/users/:Username/notes/noteID', (req, res) => {
-  Notes.findOne({ _id: req.params._id })
-    .then((note) => {
-      res.status(200).json(note);
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error: ' + err);
-    });
-});
+app.get(
+  '/users/:Username/notes/noteID',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Notes.findOne({ _id: req.params._id })
+      .then((note) => {
+        res.status(200).json(note);
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+      });
+  }
+);
 
 //GET a list of all users.
-app.get('/users', (req, res) => {
+app.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.find()
     .then(function (users) {
       res.status(200).json(users);
@@ -89,7 +93,7 @@ app.get('/users', (req, res) => {
 });
 
 //GET a user’s info by username.
-app.get('/users/:Username', (req, res) => {
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then((user) => {
       res.json(user);
@@ -101,7 +105,7 @@ app.get('/users/:Username', (req, res) => {
 });
 
 //GET a user’s info by user ID.
-app.get('/users/:userID', (req, res) => {
+app.get('/users/:userID', passport.authenticate('jwt', { session: false }), (req, res) => {
   Users.findOne({ _id: req.params._id })
     .then((user) => {
       res.json(user);
@@ -164,7 +168,7 @@ app.put(
     check('Password', 'Password is required').isLength({ min: 6 }),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  // passport.authenticate('jwt', { session: false }),
+  passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.Password);
 
@@ -192,7 +196,7 @@ app.put(
 );
 
 //POST a new note.
-app.post('/users/:Username/notes', (req, res) => {
+app.post('/users/:Username/notes', passport.authenticate('jwt', { session: false }), (req, res) => {
   Notes.findOneAndUpdate(
     { Username: req.body.Username },
     { $push: { notes: req.params.noteID } },
