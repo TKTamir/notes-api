@@ -17,7 +17,7 @@ const passport = require('passport');
 
 const Models = require('./models.js');
 
-const Notes = Models.Notes;
+const Notes = Models.Note;
 const Users = Models.User;
 
 // Parses body of requests to JSON
@@ -33,28 +33,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const { check, validationResult } = require('express-validator');
 
-let notes = [
-  {
-    id: 1,
-    content: 'Meaningful Note',
-  },
-  {
-    id: 2,
-    content: 'Casual Note',
-  },
-];
-
-let users = [
-  {
-    id: 1,
-    user: 'Jessica Drake',
-  },
-  {
-    id: 2,
-    user: 'Ben Cohen',
-  },
-];
-
 //Get requests
 
 //GET Main page
@@ -69,34 +47,103 @@ app.get('/documentation', (req, res) => {
 
 //GET all notes of a user by user ID (including the note contents and date).
 app.get('/users/:Username/notes', (req, res) => {
-  res.json(notes);
+  Notes.find()
+    .then((notes) => {
+      res.status(200).json(notes);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //GET a note by note ID.
 app.get('/users/:Username/notes/noteID', (req, res) => {
-  res.json(userNoteById);
+  Notes.findOne({ _id: req.params._id })
+    .then((note) => {
+      res.status(200).json(note);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //GET a list of all users.
 app.get('/users', (req, res) => {
-  res.json(users);
+  Users.find()
+    .then(function (users) {
+      res.status(200).json(users);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //GET a user’s info by username.
 app.get('/users/:Username', (req, res) => {
-  res.json(user);
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //GET a user’s info by user ID.
 app.get('/users/:userID', (req, res) => {
-  res.json(user);
+  Users.findOne({ _id: req.params._id })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch(function (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    });
 });
 
 //POST Register a new user account.
-app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username });
-  Users.create({ Username: req.body.Username, Password: hashedPassword, Email: req.body.Email });
-});
+app.post(
+  '/users',
+  [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.'
+    ).isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ],
+  (req, res) => {
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Birthdate: req.body.Birthdate,
+          })
+            .then((user) => {
+              res.status(201).json(user);
+            })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send('Error: ' + error);
+            });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  }
+);
 
 //UPDATE-put- Update user info
 app.put(
@@ -139,7 +186,7 @@ app.put(
 
 //POST a new note.
 app.post('/users/:Username/notes', (req, res) => {
-  Users.findOneAndUpdate(
+  Notes.findOneAndUpdate(
     { Username: req.body.Username },
     { $push: { notes: req.params.noteID } },
     { new: true } // This line makes sure that the updated document is returned
