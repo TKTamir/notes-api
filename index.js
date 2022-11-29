@@ -138,7 +138,6 @@ app.post(
             Username: req.body.Username,
             Password: req.body.Password,
             Email: req.body.Email,
-            Birthdate: req.body.Birthdate,
           })
             .then((user) => {
               res.status(201).json(user);
@@ -179,7 +178,6 @@ app.put(
           Username: req.body.Username,
           Password: hashedPassword,
           Email: req.body.Email,
-          Birthdate: req.body.Birthdate,
         },
       },
       { new: true }, //This line make sure that the updated document is returned
