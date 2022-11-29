@@ -12,8 +12,11 @@ let allowedOrigins = [
   'http://localhost:4200',
   'https://tktamir.github.io',
 ];
+
+let auth = require('./auth')(app);
+
 const passport = require('passport');
-// require('./passport');
+require('./passport');
 
 const Models = require('./models.js');
 
@@ -45,8 +48,8 @@ app.get('/', (req, res) => {
 });
 
 //GET Documentation
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { roote: __dirname });
+app.get('/documentation', function (req, res) {
+  res.sendFile(path.join(__dirname + '/public/documentation.html'));
 });
 
 //GET all notes of a user by user ID (including the note contents and date).
@@ -129,7 +132,7 @@ app.post(
         } else {
           Users.create({
             Username: req.body.Username,
-            Password: hashedPassword,
+            Password: req.body.Password,
             Email: req.body.Email,
             Birthdate: req.body.Birthdate,
           })
@@ -161,7 +164,7 @@ app.put(
     check('Password', 'Password is required').isLength({ min: 6 }),
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
-  passport.authenticate('jwt', { session: false }),
+  // passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.Password);
 
