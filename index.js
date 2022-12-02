@@ -144,6 +144,15 @@ app.post(
     check('Email', 'Email does not appear to be valid').isEmail(),
   ],
   (req, res) => {
+    // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
+
     Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
       .then((user) => {
         if (user) {
@@ -151,7 +160,7 @@ app.post(
         } else {
           Users.create({
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: hashedPassword,
             Email: req.body.Email,
           })
             .then((user) => {
@@ -185,7 +194,6 @@ app.put(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     let hashedPassword = Users.hashPassword(req.body.Password);
-
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
