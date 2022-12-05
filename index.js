@@ -11,6 +11,7 @@ let allowedOrigins = [
   'http://localhost:1234',
   'http://localhost:4200',
   'https://tktamir.github.io',
+  'https://https//notesapi.netlify.app',
 ];
 
 app.use(
