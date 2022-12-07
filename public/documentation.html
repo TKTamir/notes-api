@@ -57,32 +57,30 @@
               <td>/users</td>
               <td>GET</td>
               <td>none</td>
-              <td>
-                JSON object containing data about all users user-Username, password, email, birthday
-              </td>
+              <td>JSON object containing data about all users user-Username, password, email</td>
             </tr>
             <tr>
               <td>Return data about a user by Username</td>
               <td>/users/:Username</td>
               <td>GET</td>
               <td>none</td>
-              <td>JSON object containing data about a user-Username, password, email, birthday</td>
+              <td>JSON object containing data about a user-Username, password, email</td>
             </tr>
             <tr>
               <td>Return data about a user by User ID</td>
               <td>/users/:userID</td>
               <td>GET</td>
               <td>none</td>
-              <td>JSON object containing data about a user-Username, password, email, birthday</td>
+              <td>JSON object containing data about a user-Username, password, email</td>
             </tr>
             <tr>
               <td>Register new user</td>
               <td>/users</td>
               <td>POST</td>
-              <td>{ id: , username: "", password:"", email:"", birthday }</td>
+              <td>{ username: "", password:"", email:"" }</td>
               <td>
                 JSON object containig data about a user: <br />
-                { id: , username: "", password:"", email:"", birthday}
+                { id: , username: "", password:"", email:""}
               </td>
             </tr>
 
@@ -90,21 +88,10 @@
               <td>Update user data</td>
               <td>/users/:Username</td>
               <td>PUT</td>
-              <td>id: , username: "", password:"", email:"", birthday</td>
+              <td>{username: "", password:"", email:""}</td>
               <td>
                 JSON object containig data about a user: <br />
-                { id: , username: "", password:"", email:"", birthday}
-              </td>
-            </tr>
-
-            <tr>
-              <td>Create a new note/edit note</td>
-              <td>/users/:Username/notes</td>
-              <td>PUT</td>
-              <td>id: , username: "", password:"", email:"", birthday</td>
-              <td>
-                JSON object containig data about a user: <br />
-                { id: , username: "", password:"", email:"", birthday}
+                { id: , username: "", password:"", email:""}
               </td>
             </tr>
 
